@@ -1,0 +1,22 @@
+﻿params numpadString
+
+set ScreenSize = RemoteScreenSize()
+
+// Calculate button dimensions and position of button 1 relative to the screen height assuming it is running full screen
+set btn = (screensize.y/6, screensize.y/13) // button size
+set KP_1 = ((screensize.x/2) - btn.x, screensize.y * 0.47) // position of keypad 1 
+
+repeat with n = each character of numpadString
+	if n = "*"
+		set n to 10
+	else if n is "#"
+		set n to 12
+	else if n = 0
+		set n to 11
+	else if n is not a number
+		LogWarning "Only numbers * and # allowed"
+	end if
+	tap (KP_1.x + (((n-1) mod 3)  * btn.x), KP_1.y + (((n-1) div 3) *  btn.y))
+end repeat
+
+
